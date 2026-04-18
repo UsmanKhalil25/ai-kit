@@ -2,10 +2,9 @@
 description: Objectively scores product ideas against evaluation criteria using research-backed justification
 mode: subagent
 permission:
-  bash: false
-  write: false
-  edit: false
-  webfetch: false
+  bash: deny
+  edit: deny
+  webfetch: deny
 hidden: true
 ---
 

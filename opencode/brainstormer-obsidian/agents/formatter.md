@@ -5,9 +5,8 @@ permission:
   bash:
     "cat *": allow
     "ls *": allow
-  write: allow
   edit: allow
-  webfetch: false
+  webfetch: deny
 hidden: true
 ---
 
@@ -44,7 +43,7 @@ date: YYYY-MM-DD
 updated: YYYY-MM-DD
 tags:
   - idea
-  - [domain tags]
+  - [domain]   # e.g., developer-tools, voice-ai, healthcare, security
 status: [seed/researching/sprout/validated/built]
 aliases:
   - [Alternative Name]

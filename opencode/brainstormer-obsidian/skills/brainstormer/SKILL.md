@@ -1,6 +1,7 @@
 ---
 name: brainstormer
 description: Brainstorming partner for product ideas. Captures ideas into Obsidian notes, validates them with web research on feasibility and competition, evaluates them with a scoring framework, and tracks the pipeline with a Bases dashboard. Use when brainstorming, ideating, or discussing potential products.
+allowed-tools: Bash(obsidian *), Bash(tvly *), Edit(*), Read(*), Task(*)
 ---
 
 # Brainstormer Skill
@@ -117,7 +118,13 @@ aliases:
 
 ## References
 
-- [[]]
+### Related Ideas
+<!-- Link to 1-3 ideas that are directly connected. Add one-line context for each. -->
+- [[Idea Name]] — Brief explanation of the connection (e.g., "Shares same target user" or "Solves complementary problem")
+
+### Inspiration
+<!-- Link to external concepts, tools, or patterns that inspired this idea -->
+- [[External Tool/Concept]] - What we're borrowing or adapting
 
 ## Next Steps
 
@@ -153,7 +160,9 @@ When evaluating, ideas scoring **24+/35** are strong candidates for `sprout` sta
      "research_type": "quick",
      "idea_name": "<Idea Name>",
      "idea_description": "<brief description>",
-     "focus_areas": ["competitors", "market", "feasibility"]
+     "focus_areas": ["competitors", "market", "feasibility"],
+     "timeout": 300,
+     "use_stream": true
    }
    ```
 
@@ -189,7 +198,10 @@ When an idea looks promising after quick validation (score 20+/35 or strong pers
      "research_type": "deep",
      "idea_name": "<Idea Name>",
      "idea_description": "<detailed description>",
-     "focus_areas": ["competitive_landscape", "market_analysis", "feasibility_deep_dive"]
+     "focus_areas": ["competitive_landscape", "market_analysis", "feasibility_deep_dive"],
+     "timeout": 900,
+     "use_stream": true,
+     "use_async": true
    }
    ```
 
@@ -223,9 +235,33 @@ When an idea looks promising after quick validation (score 20+/35 or strong pers
 
 When a new idea relates to an existing one:
 
-1. Add a wikilink `[[Idea Name]]` in the References section of both notes
-2. If one idea solves a problem mentioned in another, note that in the Differentiation or Problem section
-3. If combining two ideas would create something stronger, suggest the combination and note it in both
+1. **Add contextual wikilinks** in the References section:
+   ```markdown
+   ### Related Ideas
+   - [[Idea Name]] — [Specific relationship: "Same target user", "Competes for same budget", "Technical dependency"]
+   ```
+
+2. **Create bidirectional links** — Update BOTH notes:
+   - Add link in new idea → existing idea
+   - Add link in existing idea → new idea (under "Backlinks" subsection)
+
+3. **Use heading-level links** for specific connections:
+   ```markdown
+   - [[Idea Name#Problem]] — References the specific problem section
+   - [[Idea Name#Solution]] — References the solution approach
+   ```
+
+4. **Add connection context** in Problem/Solution sections:
+   ```markdown
+   This extends the workflow approach from [[Agent Workflow Builder]] by adding...
+   ```
+
+5. **Tag by domain** — Keep it simple, one domain tag per idea:
+   ```yaml
+   tags:
+     - idea
+     - developer-tools   # or voice-ai, healthcare, security, etc.
+   ```
 
 ### Reviewing the Pipeline
 
@@ -337,18 +373,18 @@ For deep research, change `research_type` to `"deep"`.
 
 ## Research Query Patterns (for reference)
 
-These are the types of queries the researcher subagent will run:
+These are the types of queries the researcher subagent will run. Always decompose complex research into focused sub-queries with domain filtering.
 
-| Research Goal | Query Template |
-|---------------|----------------|
-| Existing competitors | `"<product description> alternatives tools"` |
-| Market size/growth | `"<domain> market size growth trends"` |
-| User pain points | `"<problem description> frustrations complaints"` |
-| Pricing signals | `"<product type> SaaS pricing revenue"` |
-| Technical feasibility | `"<tech> build <product type> MVP difficulty"` |
-| Competitive landscape | `"competitive landscape <domain> <product type>"` |
-| Market analysis | `"<domain> market analysis <year> trends size forecast"` |
-| Feasibility study | `"<product type> startup feasibility case study"` |
+| Research Goal | Query Template | Tavily Command |
+|---------------|----------------|----------------|
+| **Direct competitors** | `"<product> alternative" OR "vs <product>"` | `tvly search "<query>" --include-domains g2.com,capterra.com,alternativeto.net --depth advanced` |
+| **Indirect alternatives** | `"how to <solve problem>" OR "<problem> solution"` | `tvly search "<query>" --include-domains reddit.com,quora.com --depth advanced` |
+| **Market size** | `"<domain> market size 2025 2026" OR "<domain> market forecast"` | `tvly search "<query>" --include-domains statista.com,gartner.com,forrester.com --depth advanced` |
+| **User pain points** | `"<problem> complaint" OR "<problem> frustration"` | `tvly search "<query>" --include-domains reddit.com,twitter.com,news.ycombinator.com --time-range year` |
+| **Pricing signals** | `"<product> pricing" OR "<product> SaaS pricing"` | `tvly search "<query>" --include-domains pricingpages.com,saastr.com --depth advanced` |
+| **Technical feasibility** | `"build <product> MVP" OR "<tech> tutorial"` | `tvly search "<query>" --include-domains github.com,stackoverflow.com,dev.to --depth advanced` |
+| **Competitive landscape** | `"competitive landscape <domain>" OR "<domain> market analysis"` | `tvly research "<query>" --model pro --stream --timeout 900` |
+| **Recent developments** | `"<domain> trends 2025 2026" OR "latest <domain> news"` | `tvly search "<query>" --time-range month --topic news --depth advanced` |
 
 ## Orchestration Workflow
 

@@ -65,7 +65,11 @@ ln -s /path/to/brainstormer-obsidian/skills /path/to/your-project/.opencode/skil
 ln -s /path/to/brainstormer-obsidian/agents /path/to/your-project/.opencode/agents
 ```
 
-### 5. Start OpenCode
+### 5. Configure Agents (optional)
+
+If your project doesn't already have an `opencode.json` with agent definitions, merge the agent configurations from `opencode.example.json` into your project's `opencode.json`. This registers the subagents with OpenCode so the brainstormer can delegate to them.
+
+### 6. Start OpenCode
 
 ```bash
 cd /path/to/your-project

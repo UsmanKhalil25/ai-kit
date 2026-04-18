@@ -1,0 +1,45 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "researcher": {
+      "description": "Runs web research via Tavily CLI",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "tvly *": "allow",
+          "set *": "allow",
+          "curl *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    },
+    "evaluator": {
+      "description": "Objectively scores product ideas",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": "deny",
+        "edit": "deny",
+        "webfetch": "deny"
+      }
+    },
+    "formatter": {
+      "description": "Formats Obsidian markdown notes",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "cat *": "allow",
+          "ls *": "allow"
+        },
+        "edit": "allow",
+        "webfetch": "deny"
+      }
+    }
+  }
+}

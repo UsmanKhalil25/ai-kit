@@ -1,0 +1,49 @@
+name: Job Hunter
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tavily CLI
+        run: curl -fsSL https://cli.tavily.com/install.sh | bash
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install OpenCode
+        run: npm install -g opencode-ai
+
+      - name: Create required directories
+        run: |
+          mkdir -p logs auth seen
+          if [ ! -f seen_jobs.json ]; then
+            echo '{}' > seen_jobs.json
+          fi
+
+      - name: Prune old seen jobs
+        run: |
+          if [ -f seen_jobs.json ]; then
+            echo "Seen jobs store exists, continuing"
+          fi
+
+      - name: Run Job Hunter Agent
+        run: opencode run "Run the job hunter agent per AGENTS.md"
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          CALLMEBOT_PHONE: ${{ secrets.CALLMEBOT_PHONE }}
+          CALLMEBOT_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+
+      - name: Commit and push progress
+        run: |
+          git config user.name "Job Hunter Bot"
+          git config user.email "job-hunter-bot[bot]@users.noreply.github.com"
+          git add seen_jobs.json logs/ 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "job-hunter: update seen_jobs and logs $(date +%Y-%m-%d)"
+          git push

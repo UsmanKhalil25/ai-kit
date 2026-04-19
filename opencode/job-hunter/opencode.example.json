@@ -1,0 +1,64 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md", "config.yaml", "companies.yaml"],
+  "agent": {
+    "researcher": {
+      "description": "Runs web research via Tavily CLI to find job listings and company intelligence",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "tvly *": "allow",
+          "cat *": "allow",
+          "ls *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    },
+    "scraper": {
+      "description": "Extracts and structures job posting content from URLs via Tavily extract",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "tvly *": "allow",
+          "cat *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    },
+    "matcher": {
+      "description": "Scores jobs against resume profile with detailed rationale and filtering",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "cat *": "allow",
+          "ls *": "allow",
+          "jq *": "allow"
+        },
+        "edit": "allow",
+        "webfetch": "deny"
+      }
+    },
+    "notifier": {
+      "description": "Sends WhatsApp notifications via CallMeBot API for confirmed job matches",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "curl *": "allow",
+          "cat *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    }
+  }
+}

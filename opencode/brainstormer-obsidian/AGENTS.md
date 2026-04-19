@@ -1,3 +1,4 @@
+
 ---
 name: brainstormer
 description: Brainstorming partner for product ideas. Captures ideas into Obsidian notes, validates them with web research on feasibility and competition, evaluates them with a scoring framework, and tracks the pipeline with a Bases dashboard. Use when brainstorming, ideating, or discussing potential products.

@@ -1,0 +1,8 @@
+auth/
+seen_jobs.json
+progress.md
+.env
+*.pyc
+__pycache__/
+.opencode/
+logs/

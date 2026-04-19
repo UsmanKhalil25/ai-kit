@@ -1,0 +1,27 @@
+# companies.yaml — copy from templates/companies.example.yaml and customize
+# Add your target companies here
+
+- name: Stripe
+  keywords:
+    - backend engineer
+    - platform engineer
+    - developer experience
+  seniority: senior
+  location: remote
+  max_distance_km: null
+
+- name: Vercel
+  keywords:
+    - frontend engineer
+    - full stack
+  seniority: mid
+  location: remote
+  max_distance_km: null
+
+- name: Shopify
+  keywords:
+    - ruby engineer
+    - backend developer
+  seniority: senior
+  location: hybrid
+  max_distance_km: 25

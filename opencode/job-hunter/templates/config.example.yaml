@@ -1,0 +1,23 @@
+# config.yaml — copy from templates/config.example.yaml and customize
+
+min_match_score: 70
+
+notification:
+  method: callmebot
+  phone: "+1234567890"
+  apikey: "your-callmebot-apikey"
+
+search:
+  depth: advanced
+  max_results_per_company: 10
+  include_domains:
+    - linkedin.com
+    - indeed.com
+    - lever.co
+    - greenhouse.io
+    - workday.com
+  exclude_domains: []
+  time_range: week
+
+dedup:
+  max_age_days: 30

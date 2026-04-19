@@ -1,27 +1,223 @@
 # companies.yaml — copy from templates/companies.example.yaml and customize
 # Add your target companies here
 
-- name: Stripe
+- name: Arbisoft
   keywords:
+    - full stack engineer
     - backend engineer
-    - platform engineer
-    - developer experience
-  seniority: senior
-  location: remote
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
   max_distance_km: null
 
-- name: Vercel
+- name: Conrad Labs
   keywords:
-    - frontend engineer
-    - full stack
-  seniority: mid
-  location: remote
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
   max_distance_km: null
 
-- name: Shopify
+- name: CureMD
   keywords:
-    - ruby engineer
-    - backend developer
-  seniority: senior
-  location: hybrid
-  max_distance_km: 25
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Folio3
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Tkxel
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: SSI (Strategic Systems International)
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Motive
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Dubizzle Labs
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Techlogix
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Tether
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Adaptive Teams
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Careem
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Remote Office
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Somewhere
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: 10Pearls
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Securiti
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null
+
+- name: Northbay
+  keywords:
+    - full stack engineer
+    - backend engineer
+    - ai engineer
+  seniority:
+    - junior
+    - senior
+  location:
+    - remote
+    - onsite
+  max_distance_km: null

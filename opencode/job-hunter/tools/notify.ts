@@ -2,71 +2,57 @@ import { tool } from "@opencode-ai/plugin"
 
 export default tool({
   description:
-    "Send a WhatsApp notification via CallMeBot API. Requires CALLMEBOT_PHONE and CALLMEBOT_APIKEY environment variables.",
+    "Send a Discord notification via webhook. Requires DISCORD_WEBHOOK_URL environment variable.",
   args: {
     message: tool
       .schema
       .string()
       .describe(
-        "WhatsApp message to send"
+        "Discord message to send (supports Markdown formatting)"
       ),
-    phone: tool
+    webhook_url: tool
       .schema
       .string()
       .optional()
       .describe(
-        "WhatsApp phone number with country code (overrides CALLMEBOT_PHONE env var)"
-      ),
-    apikey: tool
-      .schema
-      .string()
-      .optional()
-      .describe(
-        "CallMeBot API key (overrides CALLMEBOT_APIKEY env var)"
+        "Discord webhook URL (overrides DISCORD_WEBHOOK_URL env var)"
       ),
   },
   async execute(args, context) {
-    const phone = args.phone || process.env.CALLMEBOT_PHONE
-    const apikey = args.apikey || process.env.CALLMEBOT_APIKEY
+    const webhookUrl = args.webhook_url || process.env.DISCORD_WEBHOOK_URL
 
-    if (!phone) {
+    if (!webhookUrl) {
       return JSON.stringify({
         success: false,
-        error: "CALLMEBOT_PHONE environment variable not set. Get your phone number configured at https://www.callmebot.com/blog/free-api-whatsapp-messages/",
+        error: "DISCORD_WEBHOOK_URL environment variable not set. Create a webhook in your Discord server: Server Settings > Integrations > Webhooks > New Webhook > Copy Webhook URL",
       }, null, 2)
     }
-
-    if (!apikey) {
-      return JSON.stringify({
-        success: false,
-        error: "CALLMEBOT_APIKEY environment variable not set. Get your API key from https://www.callmebot.com/blog/free-api-whatsapp-messages/",
-      }, null, 2)
-    }
-
-    const encodedMessage = encodeURIComponent(args.message)
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodedMessage}&apikey=${apikey}`
 
     try {
-      const response = await fetch(url)
-      const body = await response.text()
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: args.message }),
+      })
 
       if (response.ok) {
         return JSON.stringify({
           success: true,
           status: response.status,
-          message: "Notification sent successfully",
+          message: "Discord notification sent successfully",
         }, null, 2)
       } else {
+        const body = await response.text()
         return JSON.stringify({
           success: false,
           status: response.status,
-          error: `CallMeBot API error: ${body}`,
+          error: `Discord API error: ${body}`,
         }, null, 2)
       }
     } catch (err: any) {
       return JSON.stringify({
         success: false,
-        error: `Failed to call CallMeBot API: ${err.message}`,
+        error: `Failed to call Discord webhook: ${err.message}`,
       }, null, 2)
     }
   },

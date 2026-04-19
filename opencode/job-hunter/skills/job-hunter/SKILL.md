@@ -1,7 +1,7 @@
 ---
 name: job-hunter
 description: |
-  Automated job search agent. Searches for jobs at target companies using Tavily, extracts posting details, scores them against your resume, reflects on matches, and sends WhatsApp alerts for confirmed hits. Use when running a job search, checking for new job postings, or managing your job hunter pipeline.
+  Automated job search agent. Searches for jobs at target companies using Tavily, extracts posting details, scores them against your resume, reflects on matches, and sends Discord alerts for confirmed hits. Use when running a job search, checking for new job postings, or managing your job hunter pipeline.
 allowed-tools: Bash(tvly *), Bash(cat *), Bash(ls *), Bash(jq *), Bash(curl *), Bash(which *), Edit(*), Read(*), Task(*)
 ---
 
@@ -20,7 +20,7 @@ Automated job search agent that finds, scores, and alerts you about relevant job
 
 1. `TAVILY_API_KEY` environment variable must be exported — start OpenCode with `export TAVILY_API_KEY=tvly-... && opencode`
 2. `tvly` CLI must be installed — run `curl -fsSL https://cli.tavily.com/install.sh | bash` if not found
-3. `CALLMEBOT_PHONE` and `CALLMEBOT_APIKEY` must be set for WhatsApp notifications
+3. `DISCORD_WEBHOOK_URL` must be set for Discord notifications
 4. `config.yaml` must exist in the project root with search and notification settings
 5. `companies.yaml` must exist in the project root with your target companies
 6. `resume.md` must exist in the project root with your skills and experience
@@ -180,7 +180,7 @@ Add a Reflection section to `progress.md`:
 
 ### Step 7 — Notify
 
-For each confirmed match after reflection, send a WhatsApp notification via the `notifier` subagent:
+For each confirmed match after reflection, send a Discord notification via the `notifier` subagent:
 
 ```
 🆕 <Company> — <Title> (<Location>) | Match: XX%
@@ -188,9 +188,9 @@ Why: <skill>✅ <skill>✅ <location>✅
 🔗 <job_url>
 ```
 
-Use CallMeBot API:
+Use Discord webhook:
 ```bash
-curl -s "https://api.callmebot.com/whatsapp.php?phone=$CALLMEBOT_PHONE&text=ENCODED_MESSAGE&apikey=$CALLMEBOT_APIKEY"
+# The notify tool handles this — no manual curl needed
 ```
 
 ### Step 8 — Dedup
@@ -323,11 +323,11 @@ For scoring jobs against the resume profile:
 
 ### Notifier
 
-For sending WhatsApp alerts:
+For sending Discord alerts:
 
 ```json
 {
-  "task": "Send WhatsApp notifications for confirmed job matches",
+  "task": "Send Discord notifications for confirmed job matches",
   "matches": [
     {
       "company": "Stripe",

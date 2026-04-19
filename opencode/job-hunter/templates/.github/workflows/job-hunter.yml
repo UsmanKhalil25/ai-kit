@@ -36,8 +36,7 @@ jobs:
         run: opencode run "Run the job hunter agent per AGENTS.md"
         env:
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
-          CALLMEBOT_PHONE: ${{ secrets.CALLMEBOT_PHONE }}
-          CALLMEBOT_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
 
       - name: Commit and push progress

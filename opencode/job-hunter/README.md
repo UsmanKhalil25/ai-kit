@@ -1,6 +1,6 @@
 # Job Hunter — OpenCode-Native Job Search Agent
 
-An OpenCode skill and agent pack that automates job searching with AI-powered matching and WhatsApp alerts. Uses Tavily for web search and extraction (no scraping, no ToS risk), OpenCode agents for intelligent scoring, and CallMeBot for instant WhatsApp notifications.
+An OpenCode skill and agent pack that automates job searching with AI-powered matching and Discord alerts. Uses Tavily for web search and extraction (no scraping, no ToS risk), OpenCode agents for intelligent scoring, and Discord webhooks for instant notifications.
 
 ## What's Included
 
@@ -21,7 +21,7 @@ An OpenCode skill and agent pack that automates job searching with AI-powered ma
 | `researcher` | Runs Tavily searches to find job listings and company market data |
 | `scraper` | Extracts and structures job posting content from URLs |
 | `matcher` | Scores jobs against your resume profile with detailed rationale |
-| `notifier` | Sends WhatsApp alerts via CallMeBot for confirmed matches |
+| `notifier` | Sends Discord alerts via webhook for confirmed matches |
 
 ### Custom TS Tools
 
@@ -29,7 +29,7 @@ An OpenCode skill and agent pack that automates job searching with AI-powered ma
 |------|---------|
 | `search-jobs` | Search for job listings using Tavily CLI |
 | `extract-job` | Extract full content from a job posting URL |
-| `notify` | Send WhatsApp notification via CallMeBot |
+| `notify` | Send Discord notification via webhook |
 | `manage-dedup` | Read/write `seen_jobs.json` for deduplication |
 
 ### Templates
@@ -55,7 +55,7 @@ An OpenCode skill and agent pack that automates job searching with AI-powered ma
        ↓
 [Reflect] → Filter false positives, add commentary, confirm genuine matches
        ↓
-[WhatsApp Notify] → Alert for confirmed matches only
+[Discord Notify] → Alert for confirmed matches only
        ↓
 [Archive] → Save progress.md to logs/, update seen_jobs.json
 ```
@@ -73,8 +73,7 @@ tvly login
 
 ```bash
 export TAVILY_API_KEY=tvly-your-api-key-here
-export CALLMEBOT_PHONE=+1234567890      # Your WhatsApp number
-export CALLMEBOT_APIKEY=your-callmebot-key  # From callmebot.com
+export DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-id/your-webhook-token
 ```
 
 These must be exported **before** starting OpenCode.
@@ -167,7 +166,7 @@ The agent will:
 2. Search for jobs at each target company
 3. Extract and score each job against your profile
 4. Reflect on matches, filter false positives
-5. Send WhatsApp alerts for confirmed matches
+5. Send Discord alerts for confirmed matches
 6. Archive the session log to `logs/`
 
 ### Scheduled Runs (GitHub Actions)
@@ -175,8 +174,7 @@ The agent will:
 Push your project to GitHub and the workflow runs every 4 hours. You need to set these repository secrets:
 
 - `TAVILY_API_KEY`
-- `CALLMEBOT_PHONE`
-- `CALLMEBOT_APIKEY`
+- `DISCORD_WEBHOOK_URL`
 - `OPENCODE_API_KEY`
 
 ### Adding Companies
@@ -222,10 +220,10 @@ See `templates/docs/scoring-rubric.md` for the full scoring breakdown.
 
 ## Notification Format
 
-WhatsApp alerts look like:
+Discord alerts look like:
 
 ```
-🆕 Stripe — Senior Backend Engineer (Remote) | Match: 87%
+🆕 **Stripe — Senior Backend Engineer** (Remote) | Match: 87%
 Why: Python✅ AWS✅ Remote✅ Title✅
 🔗 https://linkedin.com/jobs/view/...
 ```
@@ -241,4 +239,4 @@ Why: Python✅ AWS✅ Remote✅ Title✅
 
 ## Credits
 
-Uses [Tavily](https://tavily.com) for web search and extraction, [CallMeBot](https://www.callmebot.com/) for WhatsApp notifications, and [OpenCode](https://opencode.ai) for agent orchestration.
+Uses [Tavily](https://tavily.com) for web search and extraction, [Discord](https://discord.com) for notifications via webhooks, and [OpenCode](https://opencode.ai) for agent orchestration.

@@ -48,12 +48,11 @@
       }
     },
     "notifier": {
-      "description": "Sends WhatsApp notifications via CallMeBot API for confirmed job matches",
+      "description": "Sends Discord notifications via webhook for confirmed job matches",
       "mode": "subagent",
       "hidden": true,
       "permission": {
         "bash": {
-          "curl *": "allow",
           "cat *": "allow"
         },
         "edit": "deny",

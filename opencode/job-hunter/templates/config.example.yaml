@@ -3,9 +3,8 @@
 min_match_score: 70
 
 notification:
-  method: callmebot
-  phone: "+1234567890"
-  apikey: "your-callmebot-apikey"
+  method: discord
+  webhook_url: "${DISCORD_WEBHOOK_URL}"
 
 search:
   depth: advanced

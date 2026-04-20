@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p logs auth seen
           if [ ! -f seen_jobs.json ]; then
-            echo '{}' > seen_jobs.json
+            echo '{"jobs":{}}' > seen_jobs.json
           fi
 
       - name: Prune old seen jobs

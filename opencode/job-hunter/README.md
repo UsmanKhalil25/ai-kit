@@ -137,7 +137,7 @@ cp -r /path/to/ai-kit/opencode/job-hunter/tools .opencode/tools
 ```bash
 mkdir -p logs auth seen
 touch seen_jobs.json
-echo '{}' > seen_jobs.json
+echo '{"jobs":{}}' > seen_jobs.json
 ```
 
 ### 7. Start OpenCode

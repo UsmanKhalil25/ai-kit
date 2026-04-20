@@ -1,5 +1,4 @@
 import { tool } from "@opencode-ai/plugin"
-import path from "path"
 
 export default tool({
   description:
@@ -50,29 +49,46 @@ export default tool({
       ),
   },
   async execute(args, context) {
-    const cmdParts: string[] = ["tvly", "search", `"${args.query}"`]
-    cmdParts.push("--depth", args.depth)
-    cmdParts.push("--max-results", String(args.max_results))
+    const cmdArgs: string[] = ["search", args.query, "--depth", args.depth, "--max-results", String(args.max_results)]
 
     if (args.include_domains) {
-      cmdParts.push("--include-domains", args.include_domains)
+      cmdArgs.push("--include-domains", args.include_domains)
     }
     if (args.exclude_domains) {
-      cmdParts.push("--exclude-domains", args.exclude_domains)
+      cmdArgs.push("--exclude-domains", args.exclude_domains)
     }
     if (args.time_range) {
-      cmdParts.push("--time-range", args.time_range)
+      cmdArgs.push("--time-range", args.time_range)
     }
 
-    cmdParts.push("--json")
-
-    const cmd = cmdParts.join(" ")
-    const result = await Bun.$`bash -c ${cmd}`.text()
+    cmdArgs.push("--json")
 
     try {
-      return JSON.parse(result.trim())
-    } catch {
-      return result.trim()
+      const proc = Bun.spawn(["tvly", ...cmdArgs], {
+        stdout: "pipe",
+        stderr: "pipe",
+      })
+      const stdout = await new Response(proc.stdout).text()
+      const stderr = await new Response(proc.stderr).text()
+      await proc.exited
+
+      if (proc.exitCode !== 0) {
+        return JSON.stringify({
+          error: `tvly exited with code ${proc.exitCode}`,
+          stderr: stderr.trim(),
+          stdout: stdout.trim().slice(0, 2000),
+        }, null, 2)
+      }
+
+      try {
+        return JSON.parse(stdout.trim())
+      } catch {
+        return stdout.trim()
+      }
+    } catch (err: any) {
+      return JSON.stringify({
+        error: `Failed to run tvly: ${err.message}`,
+      }, null, 2)
     }
   },
 })

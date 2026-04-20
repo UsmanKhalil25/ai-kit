@@ -57,7 +57,11 @@ export default tool({
     const readStore = (): SeenJobs => {
       try {
         const data = fs.readFileSync(filePath, "utf-8")
-        return JSON.parse(data)
+        const parsed = JSON.parse(data)
+        if (!parsed || typeof parsed !== "object" || !parsed.jobs || typeof parsed.jobs !== "object") {
+          return { jobs: {} }
+        }
+        return parsed as SeenJobs
       } catch {
         return { jobs: {} }
       }

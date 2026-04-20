@@ -38,6 +38,7 @@ jobs:
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          MODEL: ${{ vars.MODEL || 'opencode-go/qwen3.5-plus' }}
 
       - name: Commit and push progress
         run: |

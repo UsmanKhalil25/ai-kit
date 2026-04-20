@@ -74,9 +74,12 @@ tvly login
 ```bash
 export TAVILY_API_KEY=tvly-your-api-key-here
 export DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-id/your-webhook-token
+export MODEL=opencode-go/qwen3.5-plus  # optional, this is the default
 ```
 
 These must be exported **before** starting OpenCode.
+
+**Available models:** `glm-5.1`, `glm-5`, `kimi-k2.5`, `mimo-v2-pro`, `mimo-v2-omni`, `minimax-m2.7`, `minimax-m2.5`, `qwen3.6-plus`, `qwen3.5-plus` (prefix with `opencode-go/`)
 
 ### 3. Create Your Project
 
@@ -177,6 +180,10 @@ Push your project to GitHub and the workflow runs every 4 hours. You need to set
 - `TAVILY_API_KEY`
 - `DISCORD_WEBHOOK_URL`
 - `OPENCODE_API_KEY`
+
+And optionally this repository variable:
+
+- `MODEL` (default: `opencode-go/qwen3.5-plus`)
 
 ### Adding Companies
 

@@ -100,7 +100,8 @@ cp /path/to/ai-kit/opencode/job-hunter/templates/resume.example.md resume.md
 # Copy gitignore
 cp /path/to/ai-kit/opencode/job-hunter/templates/.gitignore.example .gitignore
 
-# AGENTS.md is included directly — no need to copy
+# Copy agent instructions (this is the workflow OpenCode follows)
+cp /path/to/ai-kit/opencode/job-hunter/AGENTS.md AGENTS.md
 
 # Copy and customize opencode.json
 cp /path/to/ai-kit/opencode/job-hunter/opencode.example.json opencode.json

@@ -32,7 +32,7 @@ Do not skip this step or fall back to other tools.
 - You need comprehensive, multi-source analysis
 - The user wants a comparison, market report, or literature review
 - Quick searches aren't enough — you need synthesis with citations
-- Step 5 in the [workflow](../tavily-cli/SKILL.md): search → extract → map → crawl → **research**
+- Step in the workflow: search → **research**
 
 ## Quick start
 
@@ -103,4 +103,3 @@ tvly research poll <request_id> --json -o result.json
 ## See also
 
 - [tavily-search](../tavily-search/SKILL.md) — quick web search for simple lookups
-- [tavily-crawl](../tavily-crawl/SKILL.md) — bulk extract from a site for your own analysis

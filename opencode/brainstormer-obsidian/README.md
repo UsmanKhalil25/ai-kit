@@ -1,6 +1,6 @@
 # Brainstormer + Obsidian Skills for OpenCode
 
-A complete skill and agent pack for OpenCode that enables AI-powered product idea brainstorming, validation, and Obsidian vault management.
+A complete skill and agent pack for OpenCode that enables AI-powered idea brainstorming, research, and Obsidian vault management. Works across any domain — creative projects, research topics, personal goals, learning paths, and product ideas.
 
 ## What's Included
 
@@ -8,7 +8,7 @@ A complete skill and agent pack for OpenCode that enables AI-powered product ide
 
 | Skill | Purpose |
 |-------|---------|
-| `brainstormer` | Orchestrates idea capture, research, evaluation, and pipeline management |
+| `brainstormer` | Orchestrates idea capture, research, evaluation, and pipeline management across any domain |
 | `obsidian-cli` | CLI commands for reading, creating, searching, and managing Obsidian notes |
 | `obsidian-markdown` | Obsidian Flavored Markdown syntax (wikilinks, embeds, callouts, frontmatter) |
 | `obsidian-bases` | Obsidian Bases (.base files) — views, filters, formulas, dashboards |
@@ -19,8 +19,10 @@ A complete skill and agent pack for OpenCode that enables AI-powered product ide
 
 | Agent | Purpose |
 |-------|---------|
-| `researcher` | Runs Tavily searches, synthesizes competitive/market/feasibility reports |
-| `evaluator` | Scores ideas against 7 criteria (1-5 scale) with research-backed justification |
+| `researcher` | Runs web research for any idea domain and synthesizes findings |
+| `evaluator` | Scores non-product ideas with a lightweight framework (interest, clarity, etc.) |
+| `product-strategist` | Validates product/SaaS ideas — competitive analysis, market research, monetization, and product scoring |
+| `connector` | Creates bidirectional wikilinks between related ideas, grouped by idea_type |
 | `formatter` | Formats Obsidian markdown notes with proper structure and frontmatter |
 
 ## Setup
@@ -78,50 +80,41 @@ opencode
 
 ## Usage
 
-### Brainstorming a New Idea
+### Capturing a New Idea
 
 1. Start a conversation with the brainstormer skill loaded
-2. Describe a problem, pain point, or "what if" idea
+2. Describe any idea — a problem, a curiosity, a "what if" thought, a goal
 3. The brainstormer will:
+   - Determine the idea type and tags (freeform — any category works; suggest product, creative, research, personal, learning)
    - Create an idea note in your `Ideas/` folder
-   - Delegate research to the `researcher` agent
-   - Fill in competition, market, and feasibility sections
-   - Delegate scoring to the `evaluator` agent
-   - Format the note via the `formatter` agent
    - Add it to the Idea Pipeline dashboard
 
-### Quick Validation
+### Researching an Idea
+
+For any idea, the brainstormer can delegate research to the `researcher` agent:
 
 ```json
 {
   "research_type": "quick",
   "idea_name": "My Idea",
   "idea_description": "Brief description",
-  "focus_areas": ["competitors", "market", "feasibility"]
-}
-```
-
-### Deep Research
-
-```json
-{
-  "research_type": "deep",
-  "idea_name": "My Idea",
-  "idea_description": "Detailed description",
-  "focus_areas": ["competitive_landscape", "market_analysis", "feasibility_deep_dive"]
+  "idea_type": "creative"
 }
 ```
 
 ### Evaluating an Idea
 
+**Non-product ideas** (creative, research, personal, learning, other) are scored by the `evaluator` agent against 5 criteria: Interest, Clarity, Feasibility, Impact, Uniqueness.
+
+**Product/SaaS ideas** are validated by the `product-strategist` agent — it handles competitive analysis, market research, monetization assessment, and scores against 7 business-oriented criteria. This only happens when `idea_type: product` or the user explicitly wants to build/sell something.
+
+### Product Validation (opt-in)
+
 ```json
 {
-  "idea_name": "My Idea",
-  "competition": "<paste competition section>",
-  "market_analysis": "<paste market analysis section>",
-  "feasibility": "<paste feasibility section>",
-  "problem": "<problem description>",
-  "differentiation": "<differentiation statement>"
+  "idea_name": "My App Idea",
+  "idea_description": "Brief description",
+  "depth": "quick"
 }
 ```
 
@@ -137,19 +130,17 @@ updated: YYYY-MM-DD
 tags:
   - idea
   - [domain]
-status: [seed/researching/sprout/validated/built]
+status: [seed/exploring/developing/completed/paused]
+idea_type: <your category>
 aliases:
   - [Alternative Name]
 ---
 
-## Problem
-## Solution
-## Target User
-## Differentiation
-## Competition
-## Feasibility Research
-## Market Analysis
-## Evaluation (scoring table)
+## Summary
+## Context
+## Details
+## Research
+## Evaluation
 ## References
 ## Next Steps
 ```
@@ -158,22 +149,34 @@ aliases:
 
 | Status | Meaning |
 |--------|---------|
-| `seed` | Raw idea, not researched |
-| `researching` | Active research ongoing |
-| `sprout` | Researched, scores 24-27/35 |
-| `validated` | Strong opportunity, 28+/35 |
-| `built` | Currently building or shipped |
+| `seed` | Raw idea captured |
+| `exploring` | Actively researching or thinking about it |
+| `developing` | Working on it |
+| `completed` | Done |
+| `paused` | On hold |
 
-## Evaluation Criteria
+## Evaluation Frameworks
+
+### Generic (non-product ideas)
 
 | Criterion | Description |
 |-----------|-------------|
-| Problem severity | How painful is this problem? |
-| Personal fit | Skills, interest, network alignment |
-| Market size | How many people have this problem? |
-| Feasibility | Can you build it with accessible resources? |
-| Differentiation | 10x better or meaningfully different? |
-| Monetization | Clear path to revenue? |
-| Market validation | Does research confirm real demand? |
+| Interest | How excited are you? (1-5) |
+| Clarity | How well-defined? (1-5) |
+| Feasibility | Can you pursue this? (1-5) |
+| Impact | How meaningful? (1-5) |
+| Uniqueness | Fresh angle? (1-5) |
+| **Total** | **/25** |
 
-Total: /35
+### Product/SaaS (opt-in, via product-strategist)
+
+| Criterion | Description |
+|-----------|-------------|
+| Problem severity | Painkiller or vitamin? (1-5) |
+| Personal fit | Skills, interest, network? (1-5) |
+| Market size | How many people? Growing? (1-5) |
+| Feasibility | Can you build an MVP? (1-5) |
+| Differentiation | 10x better or meaningfully different? (1-5) |
+| Monetization | Clear path to revenue? (1-5) |
+| Market validation | Research confirms demand? (1-5) |
+| **Total** | **/35** |

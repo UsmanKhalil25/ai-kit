@@ -3,7 +3,7 @@
   "instructions": ["AGENTS.md"],
   "agent": {
     "researcher": {
-      "description": "Runs web research via Tavily CLI",
+      "description": "Runs web research via Tavily CLI for any idea domain",
       "mode": "subagent",
       "hidden": true,
       "permission": {
@@ -19,12 +19,42 @@
       }
     },
     "evaluator": {
-      "description": "Objectively scores product ideas",
+      "description": "Evaluates ideas with a domain-agnostic scoring framework",
       "mode": "subagent",
       "hidden": true,
       "permission": {
         "bash": "deny",
         "edit": "deny",
+        "webfetch": "deny"
+      }
+    },
+    "product-strategist": {
+      "description": "Validates product/SaaS ideas with market research, competitive analysis, and business scoring",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "tvly *": "allow",
+          "set *": "allow",
+          "curl *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    },
+    "connector": {
+      "description": "Creates bidirectional wikilinks between related ideas, grouped by idea_type",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "obsidian *": "allow",
+          "cat *": "allow",
+          "ls *": "allow"
+        },
+        "edit": "allow",
         "webfetch": "deny"
       }
     },

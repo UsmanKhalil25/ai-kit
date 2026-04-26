@@ -31,7 +31,7 @@ Do not skip this step or fall back to other tools.
 
 - You need to find information on any topic
 - You don't have a specific URL yet
-- First step in the [workflow](../tavily-cli/SKILL.md): **search** → extract → map → crawl → research
+- First step in the workflow: **search** → research
 
 ## Quick start
 
@@ -93,5 +93,4 @@ tvly search "react hooks tutorial" --include-raw-content --max-results 3 --json
 
 ## See also
 
-- [tavily-extract](../tavily-extract/SKILL.md) — extract content from specific URLs
 - [tavily-research](../tavily-research/SKILL.md) — comprehensive multi-source research

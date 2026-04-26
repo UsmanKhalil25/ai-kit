@@ -43,8 +43,9 @@ date: YYYY-MM-DD
 updated: YYYY-MM-DD
 tags:
   - idea
-  - [domain]   # e.g., developer-tools, voice-ai, healthcare, security
-status: [seed/researching/sprout/validated/built]
+  - [domain]      # e.g., writing, tech, research, personal, creative, travel
+status: [seed/exploring/developing/completed/paused]
+idea_type: <your category>
 aliases:
   - [Alternative Name]
 ---

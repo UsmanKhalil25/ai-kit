@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "topic-researcher": {
+      "description": "Researches CS topics via Tavily + Wikipedia + official docs",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "tvly *": "allow",
+          "set *": "allow",
+          "curl *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "allow"
+      }
+    },
+    "topic-formatter": {
+      "description": "Formats CS study notes with template, code, Mermaid diagrams, and wikilinks",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "obsidian *": "allow",
+          "cat *": "allow",
+          "ls *": "allow"
+        },
+        "edit": "allow",
+        "webfetch": "deny"
+      }
+    }
+  }
+}

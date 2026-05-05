@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "log-analyzer": {
+      "description": "Fetches GCP logs over a given time window, classifies entries as actionable vs non-actionable using the platform rubric, and returns a compact markdown summary",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "gcloud *": "allow",
+          "cat *": "allow",
+          "ls *": "allow",
+          "jq *": "allow",
+          "date *": "allow",
+          "which *": "allow"
+        },
+        "edit": "deny",
+        "webfetch": "deny"
+      }
+    }
+  }
+}

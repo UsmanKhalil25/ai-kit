@@ -21,6 +21,15 @@ Reusable building blocks that workflow packages compose in (not standalone workf
 |---------|-------------|
 | [`browser`](opencode/browser/README.md) | Headless browser operator — a `browser` subagent + `playwright-browser` skill that drive a Playwright MCP for live web navigation and extraction |
 
+### Generic skills
+
+Standalone skills in [`skills/`](skills/), not tied to any package or harness:
+
+| Skill | Description |
+|-------|-------------|
+| [`asd-ste100`](skills/asd-ste100/README.md) | Rewrite dense, ambiguous English into ASD-STE100 Simplified Technical English |
+| [`pre-plan`](skills/pre-plan/SKILL.md) | `/pre-plan` — agree on a plan's scope with the user before writing it |
+
 ## Usage
 
 Copy a package's skills and agents into your project's `.opencode/` directory:

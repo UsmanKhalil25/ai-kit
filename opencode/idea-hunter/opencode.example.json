@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "@playwright/mcp@latest",
+        "--headless",
+        "--browser=chromium",
+        "--isolated",
+        "--image-responses=omit",
+        "--viewport-size=1280x2000"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    }
+  },
+  "permission": {
+    "playwright*": "deny"
+  },
+  "agent": {
+    "browser": {
+      "description": "Headless browser operator — navigates and extracts structured content via the Playwright MCP, returning only a compact result",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "playwright*": "allow",
+        "edit": "deny",
+        "webfetch": "deny",
+        "bash": {
+          "*": "deny"
+        }
+      }
+    },
+    "curator": {
+      "description": "Dedupes hunted idea candidates against the vault and scores them for signal, returning only the keepers",
+      "mode": "subagent",
+      "hidden": true,
+      "permission": {
+        "playwright*": "deny",
+        "bash": {
+          "obsidian *": "allow",
+          "cat *": "allow",
+          "ls *": "allow",
+          "*": "deny"
+        },
+        "edit": "deny",
+        "webfetch": "deny"
+      }
+    }
+  }
+}

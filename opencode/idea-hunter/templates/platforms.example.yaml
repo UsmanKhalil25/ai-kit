@@ -1,0 +1,127 @@
+# Idea-hunting platforms — config for the idea-hunter orchestrator.
+#
+# Copy to `platforms.yaml` and tune. Each platform is a hunting ground the
+# orchestrator sends to the `browser` subagent. Everything is browser-first for
+# now; each entry carries the navigation goal + extraction hints the browser
+# operator needs. To add an API-based fetcher later, add `fetch: api` to an
+# entry and wire it up — the schema below already leaves room for it.
+
+defaults:
+  fetch: browser          # browser | api  (only browser is implemented today)
+  max_items: 20           # cap per platform per run
+  max_chars_per_field: 300
+
+# The fields the browser subagent must return for every hunted item.
+# Keep this small — it's what flows back into the orchestrator's context.
+extraction_schema:
+  title: string           # short name of the idea/problem/product
+  url: string             # canonical link to the source
+  author: string          # who posted it (if shown)
+  posted_at: string       # date/relative time as shown
+  score: number|null      # upvotes / points / reactions, if any
+  num_comments: number|null
+  summary: string         # 1-2 sentence neutral summary of the idea
+  pain_point: string      # the underlying problem/need, if identifiable
+  tags: [string]          # topical tags you can infer
+
+platforms:
+  - name: hacker-news-show
+    enabled: true
+    url: https://news.ycombinator.com/show
+    goal: >
+      Collect Show HN submissions from the listing. For each, capture title,
+      link, points, comment count, and a one-line summary of what was built and
+      the problem it addresses.
+    notes: "Rows are <tr class=athing>; subtext row has points/comments. 'More' link paginates."
+
+  - name: indie-hackers-ideas
+    enabled: true
+    url: https://www.indiehackers.com/tags/ideas
+    goal: >
+      Collect posts from the Ideas tag listing. Open the top posts and extract
+      the idea, the pain point behind it, and any validation/discussion signal.
+    notes: "JS-rendered; wait for the post list to load. No API — browser required."
+
+  - name: reddit-somebodymakethis
+    enabled: false          # ⚠️ Reddit requires a logged-in session as of 2026
+    url: https://www.reddit.com/r/SomebodyMakeThis/top/?t=week
+    goal: >
+      Collect top posts describing things people wish existed. Capture the
+      request, the pain point, and upvote/comment counts.
+    notes: >
+      As of 2026 Reddit gates content behind login and blocks unauth access.
+      Enable only if you provide a logged-in browser session (--storage-state).
+      The browser operator will return {"error":"login_required"} otherwise.
+
+  - name: reddit-startups
+    enabled: false
+    url: https://www.reddit.com/r/startups/top/?t=week
+    goal: Collect top posts surfacing problems, gaps, or product requests.
+    notes: "Same Reddit login caveat as above."
+
+  - name: product-hunt
+    enabled: true
+    url: https://www.producthunt.com/
+    goal: >
+      Collect today's top product launches. For each, capture the name,
+      tagline, upvote count, topic/category, and the problem it solves.
+    notes: "JS-rendered — wait for the feed to load. Product cards each have name, tagline, upvotes. Scroll to load more."
+
+  - name: hacker-news-ask
+    enabled: true
+    url: https://news.ycombinator.com/ask
+    goal: >
+      Collect Ask HN posts where people describe problems, unmet needs, or
+      things they wish existed — strong signal for pain points.
+    notes: "Same HN listing structure as Show HN (tr.athing + subtext row). 'More' link paginates."
+
+  - name: ycombinator-rfs
+    enabled: true
+    url: https://www.ycombinator.com/rfs
+    goal: >
+      Collect Y Combinator's Requests for Startups — explicit problem areas YC
+      wants founders to tackle. For each: the theme/title and its description.
+    notes: "Mostly static page; sections with a heading + descriptive paragraphs. No pagination."
+
+  - name: betalist
+    enabled: true
+    url: https://betalist.com/
+    goal: >
+      Collect upcoming and newly launched startups. For each: name, one-line
+      pitch, and category.
+    notes: "Startup cards linking to detail pages. Scroll / paginate for more."
+
+  - name: github-trending
+    enabled: true
+    url: https://github.com/trending?since=weekly
+    goal: >
+      Collect trending repositories as product/tool ideas. For each: repo name,
+      description, primary language, and stars gained this period.
+    notes: "Static HTML — article.Box-row per repo; description in a <p>; star delta in the row footer."
+
+  - name: lobsters
+    enabled: true
+    url: https://lobste.rs/
+    goal: >
+      Collect top tech stories surfacing tools, projects, and problems worth
+      building around. For each: title, url, score, comment count.
+    notes: "Story list; each row has a title link, score, and comment count. 'Next' link paginates."
+
+  - name: reddit-sideproject
+    enabled: false          # ⚠️ Reddit login-gated (see caveat above)
+    url: https://www.reddit.com/r/SideProject/top/?t=week
+    goal: Collect top side-project launches — what people built and the itch it scratches.
+    notes: "Reddit login caveat. Enable only with a logged-in session (--storage-state)."
+
+  - name: reddit-appideas
+    enabled: false
+    url: https://www.reddit.com/r/AppIdeas/top/?t=month
+    goal: Collect app/product ideas and requests people post.
+    notes: "Reddit login caveat."
+
+# Where to write the ideas the curator keeps.
+output:
+  vault_folder: "Ideas"       # Obsidian folder (shared with the brainstormer)
+  status: "seed"              # new hunted ideas land as seeds
+  tag: "hunted"              # tag added so hunted ideas are distinguishable
+  min_signal_score: 3         # curator drops candidates scoring below this (of 5)

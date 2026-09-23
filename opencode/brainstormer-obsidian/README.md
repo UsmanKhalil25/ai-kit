@@ -19,9 +19,8 @@ A complete skill and agent pack for OpenCode that enables AI-powered idea brains
 
 | Agent | Purpose |
 |-------|---------|
-| `researcher` | Runs web research for any idea domain and synthesizes findings |
-| `evaluator` | Scores non-product ideas with a lightweight framework (interest, clarity, etc.) |
-| `product-strategist` | Validates product/SaaS ideas — competitive analysis, market research, monetization, and product scoring |
+| `researcher` | Runs domain-adaptive web research for any idea — inspiration, prior work, guides, roadmaps, or market/competitive analysis for products |
+| `evaluator` | Scores an idea with the best-fit lens (general, product, creative, research, learning, or personal) |
 | `connector` | Creates bidirectional wikilinks between related ideas, grouped by idea_type |
 | `formatter` | Formats Obsidian markdown notes with proper structure and frontmatter |
 
@@ -91,7 +90,7 @@ opencode
 
 ### Researching an Idea
 
-For any idea, the brainstormer can delegate research to the `researcher` agent:
+For any idea, the brainstormer delegates research to the `researcher` agent, which adapts its search angles to the idea's domain (inspiration for creative, prior work for research, guides for personal, roadmaps for learning, competition/market/pricing for product):
 
 ```json
 {
@@ -104,19 +103,19 @@ For any idea, the brainstormer can delegate research to the `researcher` agent:
 
 ### Evaluating an Idea
 
-**Non-product ideas** (creative, research, personal, learning, other) are scored by the `evaluator` agent against 5 criteria: Interest, Clarity, Feasibility, Impact, Uniqueness.
-
-**Product/SaaS ideas** are validated by the `product-strategist` agent — it handles competitive analysis, market research, monetization assessment, and scores against 7 business-oriented criteria. This only happens when `idea_type: product` or the user explicitly wants to build/sell something.
-
-### Product Validation (opt-in)
+Every idea is scored by the `evaluator` agent, which applies the **best-fit lens** based on `idea_type`. Product is one lens among several — selected the same way as the rest. When no domain lens fits, the general lens is used. See [Evaluation Lenses](#evaluation-lenses) below.
 
 ```json
 {
-  "idea_name": "My App Idea",
+  "idea_name": "My Idea",
   "idea_description": "Brief description",
-  "depth": "quick"
+  "idea_type": "product",
+  "research_findings": "<paste Research section>",
+  "context": "<paste Context section>"
 }
 ```
+
+For a product-lens idea, run the researcher first — its market/competition findings feed the evaluator's Market and Validation scores.
 
 ## Idea Note Structure
 
@@ -155,28 +154,15 @@ aliases:
 | `completed` | Done |
 | `paused` | On hold |
 
-## Evaluation Frameworks
+## Evaluation Lenses
 
-### Generic (non-product ideas)
+The `evaluator` applies the **best-fit lens** based on `idea_type`. Product is one lens among several, selected the same way as the rest; when nothing fits cleanly, the General lens is used. Full rubrics live in the `evaluator` agent.
 
-| Criterion | Description |
-|-----------|-------------|
-| Interest | How excited are you? (1-5) |
-| Clarity | How well-defined? (1-5) |
-| Feasibility | Can you pursue this? (1-5) |
-| Impact | How meaningful? (1-5) |
-| Uniqueness | Fresh angle? (1-5) |
-| **Total** | **/25** |
-
-### Product/SaaS (opt-in, via product-strategist)
-
-| Criterion | Description |
-|-----------|-------------|
-| Problem severity | Painkiller or vitamin? (1-5) |
-| Personal fit | Skills, interest, network? (1-5) |
-| Market size | How many people? Growing? (1-5) |
-| Feasibility | Can you build an MVP? (1-5) |
-| Differentiation | 10x better or meaningfully different? (1-5) |
-| Monetization | Clear path to revenue? (1-5) |
-| Market validation | Research confirms demand? (1-5) |
-| **Total** | **/35** |
+| Lens | For | Criteria | Total |
+|------|-----|----------|-------|
+| **General** | anything / unclear | Interest, Clarity, Feasibility, Impact, Uniqueness | /25 |
+| **Product** | build or sell | Problem severity, Personal fit, Market size, Feasibility, Differentiation, Monetization, Market validation | /35 |
+| **Creative** | writing, art, design | Resonance, Originality, Craft feasibility, Audience connection, Personal voice | /25 |
+| **Research** | a question to investigate | Significance, Novelty, Tractability, Rigor potential, Curiosity pull | /25 |
+| **Learning** | a skill/subject | Motivation, Prerequisite readiness, Resource availability, Applicability, Time realism | /25 |
+| **Personal** | a goal or habit | Alignment, Clarity of outcome, Feasibility, Impact on life, Sustainability | /25 |
